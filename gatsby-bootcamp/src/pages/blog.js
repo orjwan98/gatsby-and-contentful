@@ -1,8 +1,11 @@
 import React from 'react';
 import Layout from '../components/layout';
 import { graphql, useStaticQuery, Link } from 'gatsby';
+import blogStyles from './blog.module.scss';
 
 const BlogPage = () => {
+
+    const { posts, post } = blogStyles;
 
     const postDataArray = useStaticQuery(graphql`
     query {
@@ -28,13 +31,15 @@ const BlogPage = () => {
         <Layout>
             <h1>This is my blog page</h1>
             <h2>Posts will show up here</h2>
-            <ol>
+            <ol className={posts}>
                 {
                     postDataArray.map(ele => {
                        return (
-                            <li key={ele.node.frontmatter.title}>
-                               <h2><Link to={`/blog/${ele.node.fields.slug}`}>{ele.node.frontmatter.title}</Link></h2>
-                                <p>{ele.node.frontmatter.date}</p>
+                           <li key={ele.node.frontmatter.title} className={post}>
+                               <Link to={`/blog/${ele.node.fields.slug}`}>
+                                   <h2>{ele.node.frontmatter.title}</h2>
+                                   <p>{ele.node.frontmatter.date}</p>
+                               </Link>
                             </li>
                         )
                     })
